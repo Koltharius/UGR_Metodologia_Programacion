@@ -60,7 +60,7 @@ bool Escribir(const char nombre[], const MatrizBit& m);
 void And(MatrizBit& res, const MatrizBit& m1, const MatrizBit& m2);
 
 /**
-  * @brief AND entre dos matrices de booleanos
+  * @brief OR entre dos matrices de booleanos
   *
   * @param res Objeto donde almacenar el resultado
   * @param m1 primer operando
