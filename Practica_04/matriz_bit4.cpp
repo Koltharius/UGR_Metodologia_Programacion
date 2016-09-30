@@ -1,57 +1,61 @@
 #include "matriz_bit4.h"
 
-bool Inicializar(MatrizBit& m, int fils, int cols){
-   bool exito = false;
-   if(fils * cols <= 128){
-      m.filas_columnas = 0;
-      m.filas_columnas = ((m.filas_columnas | fils) << 8) | cols;
-      for(int i=0; i<(fils * cols) / 32; ++i){
-         m.matriz[i] = 0;
+const int BITS_INT = 32;
+const int POS_MAX = 8;
+
+bool Inicializar(MatrizBit &m, int fils, int cols) {
+  bool exito = false;
+  const int NUM_ELEM = fils * cols;
+
+  if (fils * cols <= BITS_INT * m.filas_columnas && fils >= 0 && cols >= 0) {
+    m.filas_columnas = (fils << POS_MAX) | cols;
+    const int POS_VECTOR = NUM_ELEM / BITS_INT;
+    const int POS_BIT = NUM_ELEM / BITS_INT;
+
+    if (NUM_ELEM >= BITS_INT) {
+      for (int i = 0; i < POS_VECTOR; i++) {
+        m.matriz[i] = 0;
       }
-      exito = true;
-   }
-   return exito;
+    }
+
+    int aux = m.matriz[POS_VECTOR];
+
+    for (int i = 0; i < POS_BIT; ++i) {
+      aux &= ~(1 << i);
+    }
+
+    m.matriz[POS_VECTOR] = aux;
+
+    exito = true;
+  }
+
+  return exito;
 }
 
-int Filas(const MatrizBit& m){
-   int filas = 0;
-   for(int i=0; i<8; ++i){
-      if(m.filas_columnas&(1<<i) != 0){
-         filas = filas | (1<<(i));
-      }
-   }
-   return filas;
+int Filas(const MatrizBit &m) { return m.filas_columnas >> POS_MAX; }
+
+int Columnas(const MatrizBit &m) { return m.filas_columnas && 0xFF; }
+
+bool Get(const MatrizBit &m, int f, int c) {
+  const int POS = f * Columnas(m) + c;
+
+  return (1 << POS % BITS_INT) & m.matriz[POS / BITS_INT];
 }
 
-int Columnas(const MatrizBit& m){
-   int columnas = 0;
-   for(int i=8; i<16; ++i){
-      if(m.filas_columnas&(1<<i) != 0){
-         columnas = columnas | (1<<(i-8));
-      }
-   }
-   return columnas;
-}
+void Set(MatrizBit &m, int f, int c, bool v) {
+  const int COLS = Columnas(m);
+  const int FILS = Filas(m);
 
-bool Get(const MatrizBit& m, int f, int c){
-   bool exito = true;
-   int bit = f * Columnas(m) + c;
-   int indice = bit / 32;
+  if (f < FILS && c < COLS && f >= 0 && c >= 0) {
+    const int POS = f * COLS + c;
+    const int POS_VECTOR = POS / BITS_INT;
+    const int POS_BIT = POS % BITS_INT;
+    unsigned int aux = 1 << POS_BIT;
 
-   if ((m.matriz[indice] & (1<<(bit - 32 * indice))) == 0){
-      exito = false;
-   }
-   return exito;
-}
-
-void Set(MatrizBit& m, int f, int c, bool v){
-   int bit = f * Columnas(m) + c;
-   int indice = bit / 32;
-
-   if(v){
-      m.matriz[indice] = m.matriz[indice] | (1 << (bit - 32 * indice));
-   }
-   else{
-      m.matriz[indice] = m.matriz[indice] & ~ (1 << (bit - 32 * indice));
-   }
+    if (v) {
+      m.matriz[POS_VECTOR] = aux;
+    } else {
+      m.matriz[POS_VECTOR] &= ~aux;
+    }
+  }
 }

@@ -1,6 +1,7 @@
 /**
   * @file matriz_operaciones.h
-  * @brief Fichero cabecera para funciones del tipo independientes de la representación
+  * @brief Fichero cabecera para funciones del tipo independientes de la
+ * representación
   *
   * @warning Este fichero no se debe modificar
   */
@@ -8,8 +9,8 @@
 #ifndef _MATRIZ_OPER__H_
 #define _MATRIZ_OPER__H_
 
-#include<iosfwd> // istream,ostream
 #include "matriz_bit.h"
+#include <iosfwd> // istream,ostream
 
 /**
   * @brief Lee una matriz en formato texto desde un flujo
@@ -18,7 +19,7 @@
   * @param m objeto donde almacenar la matriz, si se consigue leer
   * @return si la operación ha tenido éxito
   */
-bool Leer(std::istream& is, MatrizBit& m);
+bool Leer(std::istream &is, MatrizBit &m);
 
 /**
   * @brief Escribe una matriz en formato texto en un flujo
@@ -27,7 +28,7 @@ bool Leer(std::istream& is, MatrizBit& m);
   * @param m objeto que contiene la matriz a escribir
   * @return si la operación ha tenido éxito
   */
-bool Escribir(std::ostream& os, const MatrizBit& m);
+bool Escribir(std::ostream &os, const MatrizBit &m);
 
 /**
   * @brief Lee una matriz en formato texto desde un fichero
@@ -36,7 +37,7 @@ bool Escribir(std::ostream& os, const MatrizBit& m);
   * @param m objeto donde almacenar la matriz, si se consigue leer
   * @return si la operación ha tenido éxito
   */
-bool Leer(const char nombre[], MatrizBit& m);
+bool Leer(const char nombre[], MatrizBit &m);
 
 /**
   * @brief Escribe una matriz en formato texto en un fichero
@@ -46,7 +47,7 @@ bool Leer(const char nombre[], MatrizBit& m);
   * @return si la operación ha tenido éxito
   * @warning El archivo se creará o se sobreescribirá
   */
-bool Escribir(const char nombre[], const MatrizBit& m);
+bool Escribir(const char nombre[], const MatrizBit &m);
 
 /**
   * @brief AND entre dos matrices de booleanos
@@ -57,7 +58,7 @@ bool Escribir(const char nombre[], const MatrizBit& m);
   * @pre Las dimensiones de @a m1 y @a m2 deben coincidir
   * @post El contenido de @a res contiene el resultado de @a m1 AND @a m2
   */
-void And(MatrizBit& res, const MatrizBit& m1, const MatrizBit& m2);
+void And(MatrizBit &res, const MatrizBit &m1, const MatrizBit &m2);
 
 /**
   * @brief OR entre dos matrices de booleanos
@@ -68,7 +69,7 @@ void And(MatrizBit& res, const MatrizBit& m1, const MatrizBit& m2);
   * @pre Las dimensiones de @a m1 y @a m2 deben coincidir
   * @post El contenido de @a res contiene el resultado de @a m1 AND @a m2
   */
-void Or(MatrizBit& res, const MatrizBit& m1, const MatrizBit& m2);
+void Or(MatrizBit &res, const MatrizBit &m1, const MatrizBit &m2);
 
 /**
   * @brief NOT de una matriz de booleanos
@@ -77,7 +78,7 @@ void Or(MatrizBit& res, const MatrizBit& m1, const MatrizBit& m2);
   * @param m Operando
   * @post El contenido de @a res contiene el resultado de NOT @a m
   */
-void Not(MatrizBit& res, const MatrizBit& m);
+void Not(MatrizBit &res, const MatrizBit &m);
 
 /**
   * @brief Traspuesta de una matriz de booleanos
@@ -86,6 +87,6 @@ void Not(MatrizBit& res, const MatrizBit& m);
   * @param m Operando
   * @post El contenido de @a res contiene la traspuesta de @a m
   */
-void Traspuesta(MatrizBit& res, const MatrizBit& m);
+void Traspuesta(MatrizBit &res, const MatrizBit &m);
 
 #endif
